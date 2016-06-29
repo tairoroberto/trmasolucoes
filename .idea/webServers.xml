@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="24864c52-3cfd-409f-99f3-518b3aac908e" name="ftp.trmasolucoes.com.br" url="http://ftp.trmasolucoes.com.br">
+        <fileTransfer host="ftp.trmasolucoes.com.br" port="21" username="trmasolucoes">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
