@@ -11,17 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-    Route::get('/main', 'HomeController@index');
     Route::get("/", function(){
         return Redirect::to("http://trmasolucoes.com.br/home");
     });
-    Route::get("/home", function(){
-        return Redirect::to("http://trmasolucoes.com.br/home");
-    });
+
+    Route::auth();
+    Route::get('/servicos', ['as' => 'home', 'uses' => 'HomeController@index']);
+
 });

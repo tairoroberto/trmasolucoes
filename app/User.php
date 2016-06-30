@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Trma;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
