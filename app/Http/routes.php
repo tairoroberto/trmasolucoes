@@ -20,7 +20,11 @@ Route::group(['middleware' => 'web'], function () {
         return Redirect::to("http://trmasolucoes.com.br/home");
     });
 
+    Route::get("/home", function(){
+        return Redirect::to("http://trmasolucoes.com.br/home");
+    });
+
     Route::auth();
-    Route::get('/servicos', ['as' => 'home', 'uses' => 'HomeController@index']);
+    Route::get('/servicos', ['as' => 'servicos', 'uses' => 'HomeController@index']);
 
 });
