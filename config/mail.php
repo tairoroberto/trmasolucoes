@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'contato@trmasolucoes.com.br', 'name' => 'TRMA Soluções Web e Mobile'],
 
     /*
     |--------------------------------------------------------------------------

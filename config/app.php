@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'locale' => 'pt_BR',
+    'locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'pt_BR',
+    'fallback_locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -157,6 +157,9 @@ return [
         Trma\Providers\AuthServiceProvider::class,
         Trma\Providers\EventServiceProvider::class,
         Trma\Providers\RouteServiceProvider::class,
+
+        /** IDE-HELPER */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 

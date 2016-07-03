@@ -1,66 +1,72 @@
 @extends('layouts.app')
 
+@section('head')
+    {{--Metatag for laravel 5.2--}}
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+    <div id="login-page" class="row">
+        <div class="col s12 z-depth-4 card-panel">
+            <form class="login-form" method="POST" action="{{ url('/login') }}">
+                {{ csrf_field() }}
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-                    </form>
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <img src="{{asset('images/logo_colorfy.png')}}" alt=""
+                             class="circle responsive-img valign profile-image-login" >
+                        <p class="center login-form-text">Acompanhamento de projetos</p>
+                    </div>
                 </div>
-            </div>
+
+                @if (count($errors) > 0)
+                    <div id="card-alert" class="card red ">
+                        @foreach ($errors->all() as $error)
+                            <div class="card-content white-text">
+                                <p>{{ $error }}</p>
+                            </div>
+                            <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div class="row margin">
+                    <div class="input-field col s12">
+                        <i class="mdi-social-person-outline prefix"></i>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}">
+                        <label for="email" class="center-align">E-mail</label>
+                    </div>
+                </div>
+                <div class="row margin">
+                    <div class="input-field col s12">
+                        <i class="mdi-action-lock-outline prefix"></i>
+                        <input id="password" name="password" type="password">
+                        <label for="password">Senha</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m12 l12  login-text">
+                        <input type="checkbox" id="remember" name="remember"/>
+                        <label for="remember">Lembre-me</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button type="submit" class="btn waves-effect waves-light col s12">Login</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field s12 m12 l12">
+                        <p class="margin right-align medium-small"><a href="{{ url('/password/reset') }}">Esqueceu a
+                                senha
+                                ?</a></p>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </div>
-</div>
 @endsection

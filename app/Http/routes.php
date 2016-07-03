@@ -11,20 +11,28 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+Route::get("/", function(){
+    return Redirect::to("http://trmasolucoes.com.br/trma/");
+});
 
-Route::group(['middleware' => 'web'], function () {
-    Route::get("/", function(){
-        return Redirect::to("http://trmasolucoes.com.br/home");
-    });
 
-    Route::get("/home", function(){
-        return Redirect::to("http://trmasolucoes.com.br/home");
-    });
+Route::group(['middleware' => ['web']], function(){
+    //route of login
 
     Route::auth();
+    Route::get('/home', ['as' => 'servicos', 'uses' => 'HomeController@index']);
     Route::get('/servicos', ['as' => 'servicos', 'uses' => 'HomeController@index']);
 
+    Route::get('404', function(){
+        return view('template.page-404');
+    });
+
+    Route::get('500', function(){
+        return view('template.page-500');
+    });
+
+    Route::get('sair', function(){
+        \Auth::logout();
+        return redirect('/home');
+    });
 });
