@@ -14,9 +14,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="description"
-          content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
+          content="TRMA, acompanhamento de projetos para clientes. ">
     <meta name="keywords"
-          content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+          content="TRMA, acompanhamento de projetos">
     <title>TRMA | ACOMPANHAMENTO DE PROJETOS</title>
 
     <!-- Favicons-->
