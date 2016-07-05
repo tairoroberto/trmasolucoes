@@ -24,15 +24,19 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/servicos', ['as' => 'servicos', 'uses' => 'HomeController@index']);
 
     Route::get('404', function(){
-        return view('template.page-404');
+        return view('errors.page-404');
     });
 
     Route::get('500', function(){
-        return view('template.page-500');
+        return view('errors.page-500');
     });
 
     Route::get('sair', function(){
         \Auth::logout();
         return redirect('/home');
+    });
+
+    Route::get('teste', function(){
+        return view('app.index');
     });
 });

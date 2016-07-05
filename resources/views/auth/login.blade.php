@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-login')
 
 @section('head')
     {{--Metatag for laravel 5.2--}}
@@ -27,7 +27,7 @@
                                 <p>{{ $error }}</p>
                             </div>
                             <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
+                                <span aria-hidden="true">&nbsp;×</span>
                             </button>
                         @endforeach
                     </div>
