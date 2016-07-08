@@ -4,14 +4,16 @@ namespace Trma;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Projetos extends Model
+class Project extends Model
 {
+    protected $table = 'projects';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nome_projeto','id_cliente', 'email_cliente', 'detalhes',
+        'name', 'user_id', 'email_client', 'type_project', 'details',
     ];
 }

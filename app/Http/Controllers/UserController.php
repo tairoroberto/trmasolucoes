@@ -5,14 +5,9 @@ namespace Trma\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Trma\Http\Requests;
-use Trma\Projetos;
 
-class ProjetoController extends Controller
+class UserController extends Controller
 {
-    public function __construct() {
-        $this->middleware(['auth', 'roles']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +15,7 @@ class ProjetoController extends Controller
      */
     public function index()
     {
-        return view('projects.index');
+        //
     }
 
     /**
@@ -30,7 +25,7 @@ class ProjetoController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        //
     }
 
     /**
@@ -41,24 +36,7 @@ class ProjetoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nome_projeto' => 'required|max:255',
-            'email_cliente' => 'required|email',
-            'tipo_projeto' => 'required',
-            'detalhes' => 'required',
-        ]);
-
-
-        $projeto = new Projetos();
-        $projeto->name = $request->get('nome_projeto');
-        $projeto->cliente_id = $request->get('id_cliente');
-        $projeto->email_client = $request->get('email_cliente');
-        $projeto->type_project = $request->get('tipo_projeto');
-        $projeto->image = $request->get('imagem');
-        $projeto->details = $request->get('detalhes');
-        $projeto->save();
-
-        return redirect('projetos');
+        //
     }
 
     /**
@@ -69,7 +47,7 @@ class ProjetoController extends Controller
      */
     public function show($id)
     {
-        return 'projeto.show';
+        //
     }
 
     /**
@@ -80,7 +58,7 @@ class ProjetoController extends Controller
      */
     public function edit($id)
     {
-        return 'projects.edit';
+        //
     }
 
     /**
@@ -92,7 +70,7 @@ class ProjetoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return 'projects.update';
+        //
     }
 
     /**
@@ -103,6 +81,6 @@ class ProjetoController extends Controller
      */
     public function destroy($id)
     {
-        return 'projects.delete';
+        //
     }
 }

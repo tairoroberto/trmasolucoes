@@ -20,12 +20,12 @@ Route::group(['middleware' => ['web']], function(){
     //route of login
 
     Route::auth();
-    Route::get('/', ['as' => '/', 'uses' => 'HomeController@index']); //retirar após teste
-    Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
-    Route::get('/servicos', ['as' => 'servicos', 'uses' => 'HomeController@index']);
+    Route::get('/', ['as' => '/', 'uses' => 'ProjetoController@index']); //retirar após teste
+    Route::get('/home', ['as' => 'home', 'uses' => 'ProjetoController@index']);
+    Route::get('/projetos', ['as' => 'servicos', 'uses' => 'ProjetoController@index']);
 
 
-    /** Projetos */
+
     /** Verb	    Path	                Action	    Route Name
         GET	        /projeto	            index	    projeto.index
         GET	        /projeto/create	        create	    projeto.create
@@ -34,19 +34,37 @@ Route::group(['middleware' => ['web']], function(){
         GET	        /projeto/{projeto}/edit	edit	    projeto.edit
         PUT/PATCH	/projeto/{projeto}	    update	    projeto.update
         DELETE	    /projeto/{projeto}	    destroy	    projeto.destroy */
-    Route::resource('projeto', 'ProjetoController');
 
-    /** Rotas de erro */    
-    Route::get('404', function(){
-        return view('errors.page-404');
-    });
+    /** Projetos */
+    Route::get('/projeto',                ['as' => 'projeto.index', 'uses' => 'ProjetoController@index', 'roles' => ['administrator', 'user']]);
+    Route::get('/projeto/create',         ['as' => 'projeto.create', 'uses' => 'ProjetoController@create', 'roles' => ['administrator']]);
+    Route::post('/projeto',               ['as' => 'projeto.store', 'uses' => 'ProjetoController@store', 'roles' => ['administrator']]);
+    Route::get('/projeto/{projeto}',      ['as' => 'projeto.show', 'uses' => 'ProjetoController@show', 'roles' => ['administrator', 'user']]);
+    Route::get('/projeto/{projeto}/edit', ['as' => 'projeto.edit', 'uses' => 'ProjetoController@edit', 'roles' => ['administrator']]);
+    Route::put('/projeto/{projeto}',      ['as' => 'projeto.update', 'uses' => 'ProjetoController@update', 'roles' => ['administrator']]);
+    Route::delete('/projeto/{projeto}',   ['as' => 'projeto.destroy', 'uses' => 'ProjetoController@destroy', 'roles' => ['administrator']]);
 
-    Route::get('500', function(){
-        return view('errors.page-500');
-    });
+    /** Usuários */
+    Route::get('/usuer',              ['as' => 'usuer.index', 'uses' => 'UserController@index', 'roles' => ['administrator']]);
+    Route::get('/usuer/create',       ['as' => 'usuer.create', 'uses' => 'UserController@create', 'roles' => ['administrator']]);
+    Route::post('/usuer',             ['as' => 'usuer.store', 'uses' => 'UserController@store', 'roles' => ['administrator']]);
+    Route::get('/usuer/{usuer}',      ['as' => 'usuer.show', 'uses' => 'UserController@show', 'roles' => ['administrator']]);
+    Route::get('/usuer/{usuer}/edit', ['as' => 'usuer.edit', 'uses' => 'UserController@edit', 'roles' => ['administrator']]);
+    Route::put('/usuer/{usuer}',      ['as' => 'usuer.update', 'uses' => 'UserController@update', 'roles' => ['administrator']]);
+    Route::delete('/usuer/{usuer}',   ['as' => 'usuer.destroy', 'uses' => 'UserController@destroy', 'roles' => ['administrator']]);
 
-    Route::get('sair', function(){
-        \Auth::logout();
-        return redirect('/home');
-    });
+});
+
+/** Rotas de erro e Logout */
+Route::get('404', function(){
+    return view('errors.page-404');
+});
+
+Route::get('500', function(){
+    return view('errors.page-500');
+});
+
+Route::get('sair', function(){
+    \Auth::logout();
+    return redirect('/home');
 });

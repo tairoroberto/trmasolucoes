@@ -23,15 +23,14 @@
                                 <div class="row center">
                                     <h1 class="text-long-shadow col s12">404</h1>
                                 </div>
-                                <div class="row center">
-                                    <p class="center white-text col s12"> Isso mostra a págna que você estava procurando
-                                        não existe.</p>
-                                    <p class="center s12">
-                                        <button onclick="goBack()" class="btn waves-effect waves-light">Voltar</button>
-                                        <a href="{{url('/')}}" class="btn waves-effect waves-light">Página inicial</a>
-                                    <p>
-                                    </p>
-                                </div>
+                            </div>
+
+                            <div class="row">
+                                <p class="center red-text col s12">Isso mostra a págna que você estava procurando não
+                                    existe :( </p>
+                                <p class="center s12">
+                                    <a href="{{url('/')}}" class="btn waves-effect waves-light">Página inicial</a>
+                                </p>
                             </div>
                         </div>
                     </div>

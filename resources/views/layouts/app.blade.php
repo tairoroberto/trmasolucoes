@@ -58,10 +58,12 @@
     <!--jsgrid css-->
     <link href="{{asset('js/plugins/jsgrid/css/jsgrid.min.css')}}" type="text/css" rel="stylesheet"
           media="screen,projection">
-    <link href="{{asset('js/plugins/jsgrid/css/jsgrid-theme.min.css')}}" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="{{asset('js/plugins/jsgrid/css/jsgrid-theme.min.css')}}" type="text/css" rel="stylesheet"
+          media="screen,projection">
 
     <!--dropify-->
-    <link href="{{asset('js/plugins/dropify/css/dropify.min.css')}}" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="{{asset('js/plugins/dropify/css/dropify.min.css')}}" type="text/css" rel="stylesheet"
+          media="screen,projection">
 
     @yield('head')
 </head>
@@ -102,8 +104,9 @@
                 </div>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light translation-button"
-                           data-activates="translation-dropdown"><img src="{{asset('images/flag-icons/United-States.png')}}"
-                                                                      alt="USA"/></a>
+                           data-activates="translation-dropdown"><img
+                                    src="{{asset('images/flag-icons/United-States.png')}}"
+                                    alt="USA"/></a>
                     </li>
                     <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen"><i
                                     class="mdi-action-settings-overscan"></i></a>
@@ -184,73 +187,102 @@
         <!-- START LEFT SIDEBAR NAV-->
         <aside id="left-sidebar-nav">
             <ul id="slide-out" class="side-nav fixed leftside-navigation">
-                <li class="user-details cyan darken-2">
-                    <div class="row">
-                        <div class="col col s4 m4 l4">
-                            <img src="{{asset('images/avatar.jpg')}}" alt="" class="circle responsive-img valign profile-image">
-                        </div>
-                        <div class="col col s8 m8 l8">
-                            <ul id="profile-dropdown" class="dropdown-content">
-                                <li><a href="#"><i class="mdi-action-face-unlock"></i> Profile</a>
-                                </li>
-                                <li><a href="#"><i class="mdi-action-settings"></i> Settings</a>
-                                </li>
-                                <li><a href="#"><i class="mdi-communication-live-help"></i> Help</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
-                                </li>
-                                <li><a href="{{ url('/sair') }}"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                                </li>
-                            </ul>
-                            <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#"
-                               data-activates="profile-dropdown">
-                                John Doe
-                                <i class="mdi-navigation-arrow-drop-down right"></i>
-                            </a>
-                            <p class="user-roal">Administrator</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="bold">
-                    <a href="index.html" class="waves-effect waves-cyan">
-                        <i class="mdi-action-dashboard"></i>
-                            Dashboard
-                    </a>
-                </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold">
-                            <a class="collapsible-header waves-effect waves-cyan">
-                                <i class="mdi-action-view-carousel"></i>
-                                Projetos
-                            </a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>
-                                        <a href="{{route('projeto.index')}}">
-                                            <i class="mdi-action-view-list"></i>
-                                            Listar Projetos
-                                        </a>
+                @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2, 5]))
+                    <li class="user-details cyan darken-2">
+                        <div class="row">
+                            <div class="col col s4 m4 l4">
+                                <img src="{{(file_exists(asset('images/avatar.jpg')) ? asset('images/avatar.jpg') : asset('images/avatar.jpg'))}}" alt=""
+                                     class="circle responsive-img valign profile-image">
+                            </div>
+                            <div class="col col s8 m8 l8">
+                                <ul id="profile-dropdown" class="dropdown-content">
+                                    <li><a href="#"><i class="mdi-action-face-unlock"></i> Perfil</a>
                                     </li>
-                                    <li>
-                                        <a href="{{route('projeto.create')}}">
-                                            <i class="mdi-image-add-to-photos"></i>
-                                            Cadastrar Projeto
-                                        </a>
+                                    <li class="divider"></li>
+                                    <li><a href="{{ url('/sair') }}"><i class="mdi-hardware-keyboard-tab"></i>
+                                            Logout</a>
                                     </li>
                                 </ul>
+                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
+                                   href="#"
+                                   data-activates="profile-dropdown">
+                                    {{Auth::user()->name}}
+                                    <i class="mdi-navigation-arrow-drop-down right"></i>
+                                </a>
+                                <p class="user-roal">
+                                    @if(in_array(Auth::user()->role_id, [1, 2]))
+                                        Administrador
+                                    @else
+                                        Cliente
+                                    @endif
+                                </p>
                             </div>
-                        </li>
-                    </ul>
-                </li>
+                        </div>
+                    </li>
+                @endif
 
-                <li class="bold"><a href="app-email.html" class="waves-effect waves-cyan"><i
-                                class="mdi-communication-email"></i> Mailbox <span class="new badge">4</span></a>
-                </li>
-                <li class="bold"><a href="app-calendar.html" class="waves-effect waves-cyan"><i
-                                class="mdi-editor-insert-invitation"></i> Calender</a>
-                </li>
+
+                @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2]))
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-cyan">
+                                    <i class="mdi-social-group"></i>
+                                    Usuários
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <a href="{{route('projeto.index')}}" style="padding: 0;">
+                                                <i class="mdi-av-recent-actors"></i>
+                                                Listar Usuários
+                                            </a>
+                                        </li>
+                                        @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2]))
+                                            <li>
+                                                <a href="{{route('projeto.create')}}" style="padding: 0;">
+                                                    <i class="mdi-social-group-add"></i>
+                                                    Cadastrar Usuário
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2, 5]))
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-cyan">
+                                    <i class="mdi-action-view-carousel"></i>
+                                    Projetos
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <a href="{{route('projeto.index')}}" style="padding: 0;">
+                                                <i class="mdi-action-view-list"></i>
+                                                Listar Projetos
+                                            </a>
+                                        </li>
+                                        @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2]))
+                                            <li>
+                                                <a href="{{route('projeto.create')}}" style="padding: 0;">
+                                                    <i class="mdi-image-add-to-photos"></i>
+                                                    Cadastrar Projeto
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
                         <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i
