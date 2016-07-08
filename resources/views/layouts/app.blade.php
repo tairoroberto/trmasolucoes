@@ -58,8 +58,10 @@
     <!--jsgrid css-->
     <link href="{{asset('js/plugins/jsgrid/css/jsgrid.min.css')}}" type="text/css" rel="stylesheet"
           media="screen,projection">
-    <link href="{{asset('js/plugins/jsgrid/css/jsgrid-theme.min.css')}}" type="text/css" rel="stylesheet"
-          media="screen,projection">
+    <link href="{{asset('js/plugins/jsgrid/css/jsgrid-theme.min.css')}}" type="text/css" rel="stylesheet" media="screen,projection">
+
+    <!--dropify-->
+    <link href="{{asset('js/plugins/dropify/css/dropify.min.css')}}" type="text/css" rel="stylesheet" media="screen,projection">
 
     @yield('head')
 </head>
@@ -82,18 +84,25 @@
         <nav class="navbar-color">
             <div class="nav-wrapper">
                 <ul class="left">
-                    <li><h1 class="logo-wrapper"><a href="index.html" class="brand-logo darken-1"><img
-                                        src="images/materialize-logo.png" alt="materialize logo"></a> <span
-                                    class="logo-text">Materialize</span></h1></li>
+                    <li>
+                        <h1 class="logo-wrapper">
+                            <a href="index.html" class="brand-logo darken-1">
+                                {{--<img src="images/logo_colorfy_white_2.png" alt="materialize logo">--}}
+                                <img src="{{asset('images/logo_colorfy_white.png')}}" alt="materialize logo">
+                            </a>
+
+                        </h1>
+
+                    </li>
                 </ul>
                 <div class="header-search-wrapper hide-on-med-and-down">
                     <i class="mdi-action-search"></i>
                     <input type="text" name="Search" class="header-search-input z-depth-2"
-                           placeholder="Explore Materialize"/>
+                           placeholder="Buscar projetos"/>
                 </div>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light translation-button"
-                           data-activates="translation-dropdown"><img src="images/flag-icons/United-States.png"
+                           data-activates="translation-dropdown"><img src="{{asset('images/flag-icons/United-States.png')}}"
                                                                       alt="USA"/></a>
                     </li>
                     <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen"><i
@@ -114,19 +123,19 @@
                 <!-- translation-button -->
                 <ul id="translation-dropdown" class="dropdown-content">
                     <li>
-                        <a href="#!"><img src="images/flag-icons/United-States.png" alt="English"/> <span
+                        <a href="#!"><img src="{{asset('images/flag-icons/United-States.png')}}" alt="English"/> <span
                                     class="language-select">English</span></a>
                     </li>
                     <li>
-                        <a href="#!"><img src="images/flag-icons/France.png" alt="French"/> <span
+                        <a href="#!"><img src="{{asset('images/flag-icons/France.png')}}" alt="French"/> <span
                                     class="language-select">French</span></a>
                     </li>
                     <li>
-                        <a href="#!"><img src="images/flag-icons/China.png" alt="Chinese"/> <span
+                        <a href="#!"><img src="{{asset('images/flag-icons/China.png')}}" alt="Chinese"/> <span
                                     class="language-select">Chinese</span></a>
                     </li>
                     <li>
-                        <a href="#!"><img src="images/flag-icons/Germany.png" alt="German"/> <span
+                        <a href="#!"><img src="{{asset('images/flag-icons/Germany.png')}}" alt="German"/> <span
                                     class="language-select">German</span></a>
                     </li>
 
@@ -178,7 +187,7 @@
                 <li class="user-details cyan darken-2">
                     <div class="row">
                         <div class="col col s4 m4 l4">
-                            <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                            <img src="{{asset('images/avatar.jpg')}}" alt="" class="circle responsive-img valign profile-image">
                         </div>
                         <div class="col col s8 m8 l8">
                             <ul id="profile-dropdown" class="dropdown-content">
@@ -191,34 +200,51 @@
                                 <li class="divider"></li>
                                 <li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
                                 </li>
-                                <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                                <li><a href="{{ url('/sair') }}"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
                                 </li>
                             </ul>
                             <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#"
-                               data-activates="profile-dropdown">John Doe<i
-                                        class="mdi-navigation-arrow-drop-down right"></i></a>
+                               data-activates="profile-dropdown">
+                                John Doe
+                                <i class="mdi-navigation-arrow-drop-down right"></i>
+                            </a>
                             <p class="user-roal">Administrator</p>
                         </div>
                     </div>
                 </li>
-                <li class="bold"><a href="index.html" class="waves-effect waves-cyan"><i
-                                class="mdi-action-dashboard"></i> Dashboard</a>
+                <li class="bold">
+                    <a href="index.html" class="waves-effect waves-cyan">
+                        <i class="mdi-action-dashboard"></i>
+                            Dashboard
+                    </a>
                 </li>
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i
-                                        class="mdi-action-view-carousel"></i> Layouts</a>
+                        <li class="bold">
+                            <a class="collapsible-header waves-effect waves-cyan">
+                                <i class="mdi-action-view-carousel"></i>
+                                Projetos
+                            </a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li><a href="layout-fullscreen.html">Full Screen</a>
+                                    <li>
+                                        <a href="{{route('projeto.index')}}">
+                                            <i class="mdi-action-view-list"></i>
+                                            Listar Projetos
+                                        </a>
                                     </li>
-                                    <li><a href="layout-horizontal-menu.html">Horizontal Menu</a>
+                                    <li>
+                                        <a href="{{route('projeto.create')}}">
+                                            <i class="mdi-image-add-to-photos"></i>
+                                            Cadastrar Projeto
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                     </ul>
                 </li>
+
                 <li class="bold"><a href="app-email.html" class="waves-effect waves-cyan"><i
                                 class="mdi-communication-email"></i> Mailbox <span class="new badge">4</span></a>
                 </li>
@@ -472,7 +498,7 @@
 
 
             <!-- Floating Action Button -->
-                <div class="fixed-action-btn" style="bottom: 60px; right: 19px;">
+                <div id="float-action-button" class="fixed-action-btn" style="bottom: 60px; right: 19px;">
                     <a class="btn-floating btn-large">
                         <i class="mdi-action-stars"></i>
                     </a>
@@ -706,6 +732,7 @@
 <!--floatThead -->
 <script type="text/javascript" src="{{asset('js/plugins/floatThead/jquery.floatThead.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/plugins/floatThead/jquery.floatThead-slim.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/plugins/dropify/js/dropify.min.js')}}"></script>
 <!--sweetalert -->
 <script type="text/javascript" src="{{asset('js/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
