@@ -88,7 +88,7 @@
                 <ul class="left">
                     <li>
                         <h1 class="logo-wrapper">
-                            <a href="index.html" class="brand-logo darken-1">
+                            <a href="{{url('/home')}}" class="brand-logo darken-1">
                                 {{--<img src="images/logo_colorfy_white_2.png" alt="materialize logo">--}}
                                 <img src="{{asset('images/logo_colorfy_white.png')}}" alt="materialize logo">
                             </a>
@@ -191,7 +191,7 @@
                     <li class="user-details cyan darken-2">
                         <div class="row">
                             <div class="col col s4 m4 l4">
-                                <img src="{{(file_exists(asset('images/avatar.jpg')) ? asset('images/avatar.jpg') : asset('images/avatar.jpg'))}}" alt=""
+                                <img src="{{(file_exists(Auth::user()->image) ? asset(Auth::user()->image) : asset('images/avatar.jpg'))}}" alt=""
                                      class="circle responsive-img valign profile-image">
                             </div>
                             <div class="col col s8 m8 l8">
@@ -233,14 +233,14 @@
                                 <div class="collapsible-body">
                                     <ul>
                                         <li>
-                                            <a href="{{route('projeto.index')}}" style="padding: 0;">
+                                            <a href="{{route('user.index')}}" style="padding: 0;">
                                                 <i class="mdi-av-recent-actors"></i>
                                                 Listar Usuários
                                             </a>
                                         </li>
                                         @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2]))
                                             <li>
-                                                <a href="{{route('projeto.create')}}" style="padding: 0;">
+                                                <a href="{{route('user.create')}}" style="padding: 0;">
                                                     <i class="mdi-social-group-add"></i>
                                                     Cadastrar Usuário
                                                 </a>
@@ -263,14 +263,14 @@
                                 <div class="collapsible-body">
                                     <ul>
                                         <li>
-                                            <a href="{{route('projeto.index')}}" style="padding: 0;">
+                                            <a href="{{route('project.index')}}" style="padding: 0;">
                                                 <i class="mdi-action-view-list"></i>
                                                 Listar Projetos
                                             </a>
                                         </li>
                                         @if(Auth::check() && in_array(Auth::user()->role_id, [1, 2]))
                                             <li>
-                                                <a href="{{route('projeto.create')}}" style="padding: 0;">
+                                                <a href="{{route('project.create')}}" style="padding: 0;">
                                                     <i class="mdi-image-add-to-photos"></i>
                                                     Cadastrar Projeto
                                                 </a>

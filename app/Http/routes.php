@@ -20,38 +20,38 @@ Route::group(['middleware' => ['web']], function(){
     //route of login
 
     Route::auth();
-    Route::get('/', ['as' => '/', 'uses' => 'ProjetoController@index']); //retirar após teste
-    Route::get('/home', ['as' => 'home', 'uses' => 'ProjetoController@index']);
-    Route::get('/projetos', ['as' => 'servicos', 'uses' => 'ProjetoController@index']);
+    Route::get('/', ['as' => '/', 'uses' => 'ProjectController@index']); //retirar após teste
+    Route::get('/home', ['as' => 'home', 'uses' => 'ProjectController@index']);
+    Route::get('/projects', ['as' => 'projects', 'uses' => 'ProjectController@index']);
 
 
 
     /** Verb	    Path	                Action	    Route Name
-        GET	        /projeto	            index	    projeto.index
-        GET	        /projeto/create	        create	    projeto.create
-        POST	    /projeto	            store	    projeto.store
-        GET	        /projeto/{projeto}	    show	    projeto.show
-        GET	        /projeto/{projeto}/edit	edit	    projeto.edit
-        PUT/PATCH	/projeto/{projeto}	    update	    projeto.update
-        DELETE	    /projeto/{projeto}	    destroy	    projeto.destroy */
+        GET	        /project	            index	    project.index
+        GET	        /project/create	        create	    project.create
+        POST	    /project	            store	    project.store
+        GET	        /project/{project}	    show	    project.show
+        GET	        /project/{project}/edit	edit	    project.edit
+        PUT/PATCH	/project/{project}	    update	    project.update
+        DELETE	    /project/{project}	    destroy	    project.destroy */
 
-    /** Projetos */
-    Route::get('/projeto',                ['as' => 'projeto.index', 'uses' => 'ProjetoController@index', 'roles' => ['administrator', 'user']]);
-    Route::get('/projeto/create',         ['as' => 'projeto.create', 'uses' => 'ProjetoController@create', 'roles' => ['administrator']]);
-    Route::post('/projeto',               ['as' => 'projeto.store', 'uses' => 'ProjetoController@store', 'roles' => ['administrator']]);
-    Route::get('/projeto/{projeto}',      ['as' => 'projeto.show', 'uses' => 'ProjetoController@show', 'roles' => ['administrator', 'user']]);
-    Route::get('/projeto/{projeto}/edit', ['as' => 'projeto.edit', 'uses' => 'ProjetoController@edit', 'roles' => ['administrator']]);
-    Route::put('/projeto/{projeto}',      ['as' => 'projeto.update', 'uses' => 'ProjetoController@update', 'roles' => ['administrator']]);
-    Route::delete('/projeto/{projeto}',   ['as' => 'projeto.destroy', 'uses' => 'ProjetoController@destroy', 'roles' => ['administrator']]);
+    /** projects */
+    Route::get('/project',                ['as' => 'project.index', 'uses' => 'ProjectController@index', 'roles' => ['administrator', 'user']]);
+    Route::get('/project/create',         ['as' => 'project.create', 'uses' => 'ProjectController@create', 'roles' => ['administrator']]);
+    Route::post('/project',               ['as' => 'project.store', 'uses' => 'ProjectController@store', 'roles' => ['administrator']]);
+    Route::get('/project/{project}',      ['as' => 'project.show', 'uses' => 'ProjectController@show', 'roles' => ['administrator', 'user']]);
+    Route::get('/project/{project}/edit', ['as' => 'project.edit', 'uses' => 'ProjectController@edit', 'roles' => ['administrator']]);
+    Route::put('/project/{project}',      ['as' => 'project.update', 'uses' => 'ProjectController@update', 'roles' => ['administrator']]);
+    Route::delete('/project/{project}',   ['as' => 'project.destroy', 'uses' => 'ProjectController@destroy', 'roles' => ['administrator']]);
 
     /** Usuários */
-    Route::get('/usuer',              ['as' => 'usuer.index', 'uses' => 'UserController@index', 'roles' => ['administrator']]);
-    Route::get('/usuer/create',       ['as' => 'usuer.create', 'uses' => 'UserController@create', 'roles' => ['administrator']]);
-    Route::post('/usuer',             ['as' => 'usuer.store', 'uses' => 'UserController@store', 'roles' => ['administrator']]);
-    Route::get('/usuer/{usuer}',      ['as' => 'usuer.show', 'uses' => 'UserController@show', 'roles' => ['administrator']]);
-    Route::get('/usuer/{usuer}/edit', ['as' => 'usuer.edit', 'uses' => 'UserController@edit', 'roles' => ['administrator']]);
-    Route::put('/usuer/{usuer}',      ['as' => 'usuer.update', 'uses' => 'UserController@update', 'roles' => ['administrator']]);
-    Route::delete('/usuer/{usuer}',   ['as' => 'usuer.destroy', 'uses' => 'UserController@destroy', 'roles' => ['administrator']]);
+    Route::get('/user',             ['as' => 'user.index', 'uses' => 'UserController@index', 'roles' => ['administrator']]);
+    Route::get('/user/create',      ['as' => 'user.create', 'uses' => 'UserController@create', 'roles' => ['administrator']]);
+    Route::post('/user',            ['as' => 'user.store', 'uses' => 'UserController@store', 'roles' => ['administrator']]);
+    Route::get('/user/{user}',      ['as' => 'user.show', 'uses' => 'UserController@show', 'roles' => ['administrator']]);
+    Route::get('/user/{user}/edit', ['as' => 'user.edit', 'uses' => 'UserController@edit', 'roles' => ['administrator']]);
+    Route::put('/user/{user}',      ['as' => 'user.update', 'uses' => 'UserController@update', 'roles' => ['administrator']]);
+    Route::delete('/user/{user}',   ['as' => 'user.destroy', 'uses' => 'UserController@destroy', 'roles' => ['administrator']]);
 
 });
 

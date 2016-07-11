@@ -5,9 +5,11 @@ namespace Trma\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Trma\Http\Requests;
+use Trma\Project;
+use Trma\Projetos;
 use Trma\User;
 
-class UserController extends Controller
+class ProjectController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'roles']);
@@ -20,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        return view('projects.index');
     }
 
     /**
@@ -30,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('projects.create');
     }
 
     /**
@@ -42,22 +44,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nome' => 'required|max:255',
-            'sobrenome' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'senha' => 'required|min:6|confirmed',
-            'tipo_usuario' => 'required',
+            'nome_projeto' => 'required|max:255',
+            'email_cliente' => 'required|email',
+            'tipo_projeto' => 'required',
+            'detalhes' => 'required',
         ]);
 
-
-        $user = new User();
+        $projeto = new Project();
         $imagem = null;
-        $path = 'images/profiles/';
-        $user->name = $request->get('nome');
-        $user->last_name = $request->get('sobrenome');
-        $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('senha'));
-        $user->role_id = $request->get('tipo_usuario');
+        $path = 'images/projects/';
+
+        $projeto->name = $request->get('nome_projeto');
+        $projeto->email_client = $request->get('email_cliente');
+        $projeto->type_project = $request->get('tipo_projeto');
+        $projeto->details = $request->get('detalhes');
+
+        $user = User::where('email', '=', $request->get('email_cliente'))->get()->first();
+        $projeto->user_id = $user->id;
 
         //change the name of photo for save in database
         if ($request->file('imagem') != null && $request->hasFile('imagem') && $request->file('imagem')->isValid()){
@@ -68,12 +71,12 @@ class UserController extends Controller
             $imagem = md5(uniqid(time())) . "." . $ext;
             //move photo
             $request->file('imagem')->move($path, $imagem);
-            $user->image = $path.$imagem;
+            $projeto->image= $path.$imagem;
         }
 
-        $user->save();
+        $projeto->save();
 
-        return redirect('user')->with('success', 'Usuário cadastrado com sucesso!');
+        return redirect('project')->with('success', 'Projeto cadastrado com sucesso!');
     }
 
     /**
@@ -84,7 +87,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return 'projeto.show';
     }
 
     /**
@@ -95,9 +98,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $project = Project::find($id);
 
-        return view('users.edit', compact('user'));
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -110,29 +113,30 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nome' => 'required|max:255',
-            'sobrenome' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'senha' => 'required|min:6|confirmed',
-            'tipo_usuario' => 'required',
+            'nome_projeto' => 'required|max:255',
+            'email_cliente' => 'required|email',
+            'tipo_projeto' => 'required',
+            'detalhes' => 'required',
         ]);
 
-
-        $user = User::find($id);
+        $projeto = Project::find($id);
         $imagem = null;
-        $path = 'images/profiles/';
-        $user->name = $request->get('nome');
-        $user->last_name = $request->get('sobrenome');
-        $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('senha'));
-        $user->role_id = $request->get('tipo_usuario');
+        $path = 'images/projects/';
+
+        $projeto->name = $request->get('nome_projeto');
+        $projeto->email_client = $request->get('email_cliente');
+        $projeto->type_project = $request->get('tipo_projeto');
+        $projeto->details = $request->get('detalhes');
+
+        $user = User::where('email', '=', $request->get('email_cliente'))->get()->first();
+        $projeto->user_id = $user->id;
 
         if($request->file('imagem') != null && $request->hasFile('imagem') && $path.$request->file('imagem')->getClientOriginalName() != $user->image && \File::exists($user->image)){
             \File::delete($user->image);
         }
 
         //change the name of photo for save in database
-        if ($request->hasFile('imagem') && $request->file('imagem')->isValid()){
+        if ($request->file('imagem') != null && $request->hasFile('imagem') && $request->file('imagem')->isValid()){
             $ext = $request->file('imagem')->guessExtension();
             if($ext == ''){
                 $ext = pathinfo($request->file('imagem')->getClientOriginalName(), PATHINFO_EXTENSION);
@@ -140,12 +144,12 @@ class UserController extends Controller
             $imagem = md5(uniqid(time())) . "." . $ext;
             //move photo
             $request->file('imagem')->move($path, $imagem);
-            $user->image = $path.$imagem;
+            $projeto->image= $path.$imagem;
         }
 
-        $user->save();
+        $projeto->save();
 
-        return redirect('user')->with('success', 'Usuário atualizado com sucesso!');
+        return redirect('project')->with('success', 'Projeto atualizado com sucesso!');
     }
 
     /**
@@ -156,6 +160,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'projects.delete';
     }
 }

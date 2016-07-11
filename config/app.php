@@ -161,6 +161,13 @@ return [
         /** IDE-HELPER */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        /** DataTables e OracleOci */
+        Yajra\Oci8\Oci8ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
+        /** DebugBar */
+        Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
 
     /*
@@ -206,6 +213,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
