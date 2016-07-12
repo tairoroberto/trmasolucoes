@@ -3,11 +3,10 @@
 namespace Trma\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Trma\Http\Requests;
 use Trma\Project;
-use Trma\Projetos;
 use Trma\User;
+use Yajra\Datatables\Facades\Datatables;
 
 class ProjectController extends Controller
 {
@@ -87,7 +86,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return 'projeto.show';
+        return 'projeto = ' .$id;
     }
 
     /**
@@ -100,7 +99,13 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
 
-        return view('projects.edit', compact('project'));
+        /** Se for o admin pode editar, senão só mostra o andamento do projeto */
+        if(in_array(\Auth::user()->role_id, [1,2,3,4])){
+            return view('projects.edit', compact('project'));
+        }else {
+            /** (show) project/{id} */
+            return redirect('project/'.$id);
+        }
     }
 
     /**
@@ -161,5 +166,44 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         return 'projects.delete';
+    }
+
+    /** *************************************************************************************/
+    /**                               Ações dos projetos                                   */
+    /** ***********************************************************************************/
+
+    /** Retorna todos os usuarios para preencher a datatable
+     * @return
+     */
+    public function projectsDataTable(){
+
+        if(in_array(\Auth::user()->role_id, [1,2,3,4])){
+            $projects = Project::all();
+        }else {
+            $projects = Project::where('user_id', '=', \Auth::user()->id)->get();
+        }
+
+        return Datatables::of($projects)
+            ->addColumn('details', function ($project) {
+                $user = User::where('email', '=', $project->email_client)->get()->first();
+                return '
+                    <ul class="collection">
+                        <li class="collection-item avatar">
+                            <a href="'.route('project.edit', $project->id).'"><img src="'.(($project->image && \File::exists($project->image)) ? asset($project->image) : asset('images/avatar.jpg')).'" alt="" class="circle"></a>
+                            <a href="'.route('project.edit', $project->id).'"><p>'. $project->name.'</p></a>
+                            <p>
+                                <a href="'.route('project.edit', $project->id).'" class="white-text">
+                                    <div class="chip cyan white-text">
+                                        <img src="'.(($user->image && \File::exists($user->image))?asset($user->image):asset('images/avatar.jpg')).'" alt="'.$user->email.'">
+                                        '.$user->name.' - '.$user->email.'
+                                    </div>
+                                </a>
+                            </p>
+                            
+                            <a href="'.route('project.edit', $project->id).'"><p>'. $project->details .'</p></a>
+                            <a href="'.route('project.edit', $project->id).'" class="secondary-content"><i class="mdi-content-send" style="font-size: 35px;padding-top: 20px"></i></a>
+                        </li>
+                    </ul>';
+            })->make(true);
     }
 }

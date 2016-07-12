@@ -32,8 +32,10 @@
             </div>
         @endif
 
+
         <div class="col s12 m12 l12">
-            <ul class="collection">
+            <!--
+             <ul class="collection">
                 <?php
                     if(in_array(Auth::user()->role_id, [1,2,3,4])){
                         $projects = \Trma\Project::all();
@@ -44,12 +46,12 @@
                 @foreach($projects as $project)
                     <?php $user = \Trma\User::where('email', '=', $project->email_client)->get()->first(); ?>
                     <li class="collection-item avatar">
-                        <a href="{{route('project.edit', $project->id)}}"><img src="{{($project->image) ? $project->image : asset('images/avatar.jpg')}}" alt="" class="circle"></a>
+                        <a href="{{route('project.edit', $project->id)}}"><img src="{{($project->image && File::exists($project->image)) ? asset($project->image) : asset('images/avatar.jpg')}}" alt="" class="circle"></a>
                         <a href="{{route('project.edit', $project->id)}}"><span class="title">{{$project->name}}</span></a>
                         <p>
                             <a href="{{route('project.edit', $project->id)}}" class="white-text">
                                 <div class="chip cyan white-text">
-                                    <img src="{{($user->image)?asset($user->image):asset('images/avatar.jpg')}}" alt="{{$user->email}}">
+                                    <img src="{{($user->image && File::exists($user->image))?asset($user->image):asset('images/avatar.jpg')}}" alt="{{$user->email}}">
                                     {{$user->name}} - {{$user->email}}
                                 </div>
                             </a>
@@ -58,9 +60,38 @@
                         <a href="{{route('project.edit', $project->id)}}" class="secondary-content"><i class="mdi-content-send" style="font-size: 30px;padding-top: 5px"></i></a>
                     </li>
                 @endforeach
-
             </ul>
-
+            -->
+            <!--DataTables example-->
+            <table id="data-table-projects" class="display hoverable" style="border: 0;" cellspacing="0">
+                <thead>
+                <tr>
+                    <th></th>
+                </tr>
+                </thead>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
 @endsection
+
+@section('footer')
+    <script type="text/javascript">
+        $(function() {
+            $('#data-table-projects').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route("project.datatables") }}',
+                columns: [
+                    {data: 'details', name: 'details'}
+                ]
+            });
+        });
+
+        $("#float-action-button").css('display', 'none');
+    </script>
+@stop

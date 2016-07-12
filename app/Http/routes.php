@@ -40,9 +40,10 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/project/create',         ['as' => 'project.create', 'uses' => 'ProjectController@create', 'roles' => ['administrator']]);
     Route::post('/project',               ['as' => 'project.store', 'uses' => 'ProjectController@store', 'roles' => ['administrator']]);
     Route::get('/project/{project}',      ['as' => 'project.show', 'uses' => 'ProjectController@show', 'roles' => ['administrator', 'user']]);
-    Route::get('/project/{project}/edit', ['as' => 'project.edit', 'uses' => 'ProjectController@edit', 'roles' => ['administrator']]);
+    Route::get('/project/{project}/edit', ['as' => 'project.edit', 'uses' => 'ProjectController@edit', 'roles' => ['administrator', 'user']]);
     Route::put('/project/{project}',      ['as' => 'project.update', 'uses' => 'ProjectController@update', 'roles' => ['administrator']]);
     Route::delete('/project/{project}',   ['as' => 'project.destroy', 'uses' => 'ProjectController@destroy', 'roles' => ['administrator']]);
+    Route::get('/project-datatables',     ['as' => 'project.datatables', 'uses' => 'ProjectController@projectsDataTable', 'roles' => ['administrator', 'user']]);
 
     /** Usuários */
     Route::get('/user',             ['as' => 'user.index', 'uses' => 'UserController@index', 'roles' => ['administrator']]);
