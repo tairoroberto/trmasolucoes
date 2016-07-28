@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="card-panel">
-                    <h4 class="header2">Cadastro de Projeto</h4>
+                    <h4 class="header2">Editar Projeto</h4>
 
                     @if (count($errors) > 0)
                         <div id="card-alert" class="card red ">
@@ -61,7 +61,7 @@
                                 <label for="tipo_projeto">Tipo de Projeto</label>
                             </div>
                             <div class="col s6 m6 l6">
-                                <input type="file" id="imagem" name="imagem" class="dropify" data-default-file="{{asset($project->image)}}"/>
+                                <input type="file" id="imagem" name="imagem" class="dropify" data-default-file="{{asset($project->image)}}" data-height="50"/>
                             </div>
                         </div>
                         <div class="row">
@@ -71,8 +71,14 @@
                                 <label for="detalhes">Detalhes</label>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="input-field col s12">
+                                <a class="waves-effect waves-light btn modal-trigger  light-blue" href="#modal1">
+                                    <i class="mdi-image-add-to-photos left"></i>
+                                    Add Tarefa
+                                </a>
+
                                 <button class="btn cyan waves-effect waves-light right" type="submit"
                                         name="action">Salvar
                                     <i class="mdi-content-send right"></i>
@@ -87,15 +93,97 @@
         <br>
         <br>
     </form>
+
+    {{-- Formulário para imagens --}}
+    <form id="form_task_image" method="post" action="{{route('project.addtaskimage', $project->id)}}" enctype="multipart/form-data">
+
+        {{csrf_field()}}
+
+        {{-- Modal para as imagens --}}
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+
+                <div class="col s12 m12 l12">
+                    <input class='with-gap' name='group' type='radio' id='groupImage' checked onchange='changeTypeTask();' value="groupImage" />
+                    <label for='groupImage' >Imagem</label>
+                    <input class='with-gap' name='group' type='radio' id='groupGalery' onchange='changeTypeTask();' value="groupGalery" />
+                    <label for='groupGalery' >Galeria</label>
+                    <input class='with-gap' name='group' type='radio' id='groupText' onchange='changeTypeTask();' value="groupText" />
+                    <label for='groupText' >Texto</label>
+                    <br>
+                    <br>
+                    <div class='col s12 m12 l12' style='display:block;' id='div_image'>
+                        <input name='imagetask' id='imagetask' type='file' class='dropify' data-default-file='' data-height='150' ><br>
+                    </div>
+
+                    <div class="row">
+                        <div class='col s12 m12 l12' style='display:none;' id='div_galery'>
+                            <div class='col s6 m6 l6'>
+                                <input name='galeryArray[]' id='galeryArray[]' type='file' class='dropify' data-default-file='' data-height='100' ><br>
+                            </div>
+                            <div class='col s6 m6 l6'>
+                                <input name='galeryArray[]' id='galeryArray[]' type='file' class='dropify' data-default-file='' data-height='100' ><br>
+                            </div>
+                            <div class='col s6 m6 l6'>
+                                <input name='galeryArray[]' id='galeryArray[]' type='file' class='dropify' data-default-file='' data-height='100' ><br>
+                            </div>
+                            <div class='col s6 m6 l6'>
+                                <input name='galeryArray[]' id='galeryArray[]' type='file' class='dropify' data-default-file='' data-height='100' ><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  style='display:none;' id='div_text'>
+                        <label for="text">Texto</label>
+                        <input name='text' id='text' type='text' >
+                    </div>
+                </div>
+
+                {{-- Div para criação de campos de imagens --}}
+                <div class="row" id="div_image_origem"></div>
+                <div class="row" id="div_image_destino"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn cyan waves-effect waves-light right modal-action modal-close" type="submit"
+                        name="action">Salvar
+                    <i class="mdi-content-send right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
 @endsection
 
 @section('footer')
     <script>
-        $(document).ready(function () {
-            // Basic
-            $('.dropify').dropify();
+        /* dropfile com tradução */
+        $('.dropify').dropify({
+            messages: {
+                default: 'Arraste e solte uma imagem aqui',
+                replace: 'Arraste e solte uma imagem aqui para substituir',
+                remove: 'Remover',
+                error: 'Erro, imagem é muito grande'
+            }
         });
 
-        $("#float-action-button").css('display', 'none');
+        function changeTypeTask() {
+            if(document.getElementById('groupImage').checked == true){
+                document.getElementById('div_image').style.display = "block";
+                document.getElementById('div_galery').style.display = "none";
+                document.getElementById('div_text').style.display = "none";
+
+            }
+            if(document.getElementById('groupGalery').checked == true){
+                document.getElementById('div_galery').style.display = "block";
+                document.getElementById('div_image').style.display = "none";
+                document.getElementById('div_text').style.display = "none";
+
+            }
+            if(document.getElementById('groupText').checked == true){
+                document.getElementById('div_text').style.display = "block";
+                document.getElementById('div_image').style.display = "none";
+                document.getElementById('div_galery').style.display = "none";
+            }
+        }
     </script>
 @endsection

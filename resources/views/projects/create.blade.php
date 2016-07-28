@@ -58,7 +58,7 @@
                                 <label for="tipo_projeto">Tipo de Projeto</label>
                             </div>
                             <div class="col s6 m6 l6">
-                                <input type="file" id="imagem" name="imagem" class="dropify" data-default-file=""/>
+                                <input type="file" id="imagem" name="imagem" class="dropify" data-default-file="" data-height="50"/>
                             </div>
                         </div>
                         <div class="row">
@@ -88,9 +88,13 @@
 
 @section('footer')
     <script>
-        $(document).ready(function () {
-            // Basic
-            $('.dropify').dropify();
+        $('.dropify').dropify({
+            messages: {
+                default: 'Arraste e solte uma imagem aqui',
+                replace: 'Arraste e solte uma imagem aqui para substituir',
+                remove: 'Remover',
+                error: 'Erro, imagem é muito grande'
+            }
         });
 
         $("#float-action-button").css('display', 'none');

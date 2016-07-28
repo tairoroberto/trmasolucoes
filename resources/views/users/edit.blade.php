@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="card-panel">
-                    <h4 class="header2">Cadastro de Usuário</h4>
+                    <h4 class="header2">Editar Usuário</h4>
 
                     @if (count($errors) > 0)
                         <div id="card-alert" class="card red ">
@@ -22,7 +22,7 @@
                                 </button>
                             @endforeach
                         </div>
-                @endif
+                    @endif
 
                 <!-- Form with icon prefixes -->
                     <div class="row">
@@ -62,7 +62,7 @@
                                 <div class="row">
                                     <div class="col s6 m6 l6">
                                         <input type="file" id="imagem" name="imagem" class="dropify"
-                                               data-default-file="{{ asset($user->image) }}"/>
+                                               data-default-file="{{ asset($user->image) }}" data-height="50"/>
                                     </div>
                                     <div class="input-field col s6">
                                         <select id="tipo_usuario" name="tipo_usuario">

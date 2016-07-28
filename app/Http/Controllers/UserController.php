@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Trma\Http\Requests;
 use Trma\User;
+use Yajra\Datatables\Facades\Datatables;
 
 class UserController extends Controller
 {
@@ -41,14 +42,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(), [
             'nome' => 'required|max:255',
             'sobrenome' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255',
             'senha' => 'required|min:6|confirmed',
             'tipo_usuario' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return redirect("/user/create")
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $user = new User();
         $imagem = null;
@@ -109,7 +115,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(), [
             'nome' => 'required|max:255',
             'sobrenome' => 'required|max:255',
             'email' => 'required|email|max:255',
@@ -117,6 +123,11 @@ class UserController extends Controller
             'tipo_usuario' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return redirect("/user/{$id}/edit")
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $user = User::find($id);
         $imagem = null;
@@ -157,5 +168,34 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function usersDataTable() {
+        if(in_array(\Auth::user()->role_id, [1,2,3,4])){
+            $users = User::all();
+        }else {
+            $users = User::where('id', '=', \Auth::user()->id)->get();
+        }
+        return Datatables::of($users)
+            ->addColumn('details', function ($user) {
+                return '
+                        <ul class="collection">
+                            <li class="collection-item avatar">
+                                <a href="'.route('user.edit', $user->id).'"><img src="'.(($user->image && \File::exists($user->image)) ? asset($user->image) : asset('images/avatar.jpg')).'" alt="" class="circle"></a>
+                                <a href="'.route('user.edit', $user->id).'">
+                                    <p>'. $user->name.' '. $user->last_name .'</p>
+                                </a>
+                                <p>
+                                    <a href="'.route('user.edit', $user->id).'" class="white-text">
+                                        <div class="chip cyan white-text">
+                                            '.$user->email.'
+                                        </div>
+                                    </a>
+                                </p>                            
+                                
+                                <a href="'.route('user.edit', $user->id).'" class="secondary-content"><i class="mdi-content-send" style="font-size: 35px;padding-top: 10px;"></i></a>
+                            </li>
+                        </ul>';
+            })->make(true);
     }
 }

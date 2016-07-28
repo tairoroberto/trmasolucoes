@@ -62,7 +62,7 @@
                                         <div class="col s6 m6 l6">
                                             <input type="file" id="imagem" name="imagem" class="dropify"
                                                    data-default-file=""
-                                                   value="{{ old('imagem') }}"/>
+                                                   value="{{ old('imagem') }}" data-height="50"/>
                                         </div>
                                         <div class="input-field col s6">
                                             <select id="tipo_usuario" name="tipo_usuario">

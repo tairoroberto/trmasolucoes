@@ -88,7 +88,29 @@
                 ajax: '{{ route("project.datatables") }}',
                 columns: [
                     {data: 'details', name: 'details'}
-                ]
+                ],
+                oLanguage: {
+                    oAria: {
+                        sSortAscending: ": activate to sort column ascending",
+                        sSortDescending: ": activate to sort column descending"
+                    },
+                    oPaginate: {sFirst: "Anterior", sLast: "Último", sNext: "Próximo", sPrevious: "Anterior"},
+                    sEmptyTable: "Nenhum registro encontrado",
+                    sInfo: "Mostrando _START_ de _END_ para _TOTAL_ registros",
+                    sInfoEmpty: "Mostrando 0 de 0 para 0 registros",
+                    sInfoFiltered: "(filtrado de _MAX_ registros)",
+                    sInfoPostFix: "",
+                    sDecimal: "",
+                    sThousands: ",",
+                    sLengthMenu: "Mostrando _MENU_ registros",
+                    sLoadingRecords: "Carregando...",
+                    sProcessing: "Carregando...",
+                    sSearch: "Buscar:",
+                    sSearchPlaceholder: "",
+                    sUrl: "",
+                    sZeroRecords: "Nenhum registro encontrado"
+                }
+
             });
         });
 

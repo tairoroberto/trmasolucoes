@@ -99,15 +99,13 @@
                 </ul>
                 <div class="header-search-wrapper hide-on-med-and-down">
                     <i class="mdi-action-search"></i>
-                    <input type="text" name="Search" class="header-search-input z-depth-2"
-                           placeholder="Buscar projetos"/>
+                    <form method="post" action="{{route('project.search')}}">
+                        {{csrf_field()}}
+                        <input type="email" required="true" id="search" name="search" class="header-search-input z-depth-2" placeholder="Buscar projetos por email do cliente"/>
+                    </form>
                 </div>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light translation-button"
-                           data-activates="translation-dropdown"><img
-                                    src="{{asset('images/flag-icons/United-States.png')}}"
-                                    alt="USA"/></a>
-                    </li>
+
                     <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen"><i
                                     class="mdi-action-settings-overscan"></i></a>
                     </li>
@@ -196,8 +194,8 @@
                             </div>
                             <div class="col col s8 m8 l8">
                                 <ul id="profile-dropdown" class="dropdown-content">
-                                    <li><a href="#"><i class="mdi-action-face-unlock"></i> Perfil</a>
-                                    </li>
+                                    {{--<li><a href="#"><i class="mdi-action-face-unlock"></i> Perfil</a>
+                                    </li>--}}
                                     <li class="divider"></li>
                                     <li><a href="{{ url('/sair') }}"><i class="mdi-hardware-keyboard-tab"></i>
                                             Logout</a>
@@ -272,7 +270,7 @@
                                             <li>
                                                 <a href="{{route('project.create')}}" style="padding: 0;">
                                                     <i class="mdi-image-add-to-photos"></i>
-                                                    Cadastrar Projeto
+                                                    Novo Projeto
                                                 </a>
                                             </li>
                                         @endif
@@ -427,7 +425,7 @@
                             </div>
                             <div class="collapsible-body favorite-associates">
                                 <div class="favorite-associate-list chat-out-list row">
-                                    <div class="col s4"><img src="images/avatar.jpg" alt=""
+                                    <div class="col s4"><img src="{{asset('images/avatar.jpg')}}" alt=""
                                                              class="circle responsive-img online-user valign profile-image">
                                     </div>
                                     <div class="col s8">
@@ -436,7 +434,7 @@
                                     </div>
                                 </div>
                                 <div class="favorite-associate-list chat-out-list row">
-                                    <div class="col s4"><img src="images/avatar.jpg" alt=""
+                                    <div class="col s4"><img src="{{asset('images/avatar.jpg')}}" alt=""
                                                              class="circle responsive-img online-user valign profile-image">
                                     </div>
                                     <div class="col s8">
@@ -445,7 +443,7 @@
                                     </div>
                                 </div>
                                 <div class="favorite-associate-list chat-out-list row">
-                                    <div class="col s4"><img src="images/avatar.jpg" alt=""
+                                    <div class="col s4"><img src="{{asset('images/avatar.jpg')}}" alt=""
                                                              class="circle responsive-img offline-user valign profile-image">
                                     </div>
                                     <div class="col s8">
@@ -454,7 +452,7 @@
                                     </div>
                                 </div>
                                 <div class="favorite-associate-list chat-out-list row">
-                                    <div class="col s4"><img src="images/avatar.jpg" alt=""
+                                    <div class="col s4"><img src="{{asset('images/avatar.jpg')}}" alt=""
                                                              class="circle responsive-img online-user valign profile-image">
                                     </div>
                                     <div class="col s8">
@@ -463,7 +461,7 @@
                                     </div>
                                 </div>
                                 <div class="favorite-associate-list chat-out-list row">
-                                    <div class="col s4"><img src="images/avatar.jpg" alt=""
+                                    <div class="col s4"><img src="{{asset('images/avatar.jpg')}}" alt=""
                                                              class="circle responsive-img offline-user valign profile-image">
                                     </div>
                                     <div class="col s8">
@@ -524,7 +522,7 @@
 <script type="text/javascript" src="{{asset('js/plugins/sparkline/sparkline-script.js')}}"></script>
 
 <!-- chartist -->
-<script type="text/javascript" src="{{asset('js/plugins/chartist-js/chartist.min.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('js/plugins/chartist-js/chartist.min.js')}}"></script>--}}
 
 <!--editabletable-->
 <script type="text/javascript" src="{{asset('js/plugins/editable-table/mindmup-editabletable.js')}}"></script>

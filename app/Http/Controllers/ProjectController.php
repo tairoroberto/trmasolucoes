@@ -3,8 +3,8 @@
 namespace Trma\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Trma\Http\Requests;
 use Trma\Project;
+use Trma\ProjecTaskImage;
 use Trma\User;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -42,16 +42,21 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+       $validator = \Validator::make($request->all(), [
             'nome_projeto' => 'required|max:255',
             'email_cliente' => 'required|email',
             'tipo_projeto' => 'required',
             'detalhes' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return redirect('/project/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $projeto = new Project();
         $imagem = null;
-        $path = 'images/projects/';
 
         $projeto->name = $request->get('nome_projeto');
         $projeto->email_client = $request->get('email_cliente');
@@ -60,6 +65,15 @@ class ProjectController extends Controller
 
         $user = User::where('email', '=', $request->get('email_cliente'))->get()->first();
         $projeto->user_id = $user->id;
+        $projeto->save();
+        $projeto = Project::where('user_id', '=', $user->id)
+                            ->where('name', '=', $request->get('nome_projeto'))
+                            ->get()->first();
+
+        $path = 'images/projects/project_'.$projeto->id.'/';
+        if(!is_dir($path)){
+            mkdir($path);
+        }
 
         //change the name of photo for save in database
         if ($request->file('imagem') != null && $request->hasFile('imagem') && $request->file('imagem')->isValid()){
@@ -86,7 +100,8 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return 'projeto = ' .$id;
+        $project = Project::find($id);
+        return view('projects.timeline', compact('project'));
     }
 
     /**
@@ -117,16 +132,26 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(), [
             'nome_projeto' => 'required|max:255',
             'email_cliente' => 'required|email',
             'tipo_projeto' => 'required',
             'detalhes' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return redirect("/project/{$id}/edit")
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $projeto = Project::find($id);
         $imagem = null;
-        $path = 'images/projects/';
+
+        $path = 'images/projects/project_'.$projeto->id.'/';
+        if(!is_dir($path)){
+            mkdir($path);
+        }
 
         $projeto->name = $request->get('nome_projeto');
         $projeto->email_client = $request->get('email_cliente');
@@ -198,12 +223,118 @@ class ProjectController extends Controller
                                         '.$user->name.' - '.$user->email.'
                                     </div>
                                 </a>
-                            </p>
-                            
-                            <a href="'.route('project.edit', $project->id).'"><p>'. $project->details .'</p></a>
-                            <a href="'.route('project.edit', $project->id).'" class="secondary-content"><i class="mdi-content-send" style="font-size: 35px;padding-top: 20px"></i></a>
+                            </p>                            
+                            <a href="'.route('project.edit', $project->id).'"><p>'. $project->details .'</p></a>                            
+                            <a href="'.route('project.edit', $project->id).'" class="secondary-content" title="Visualizar projeto"><i class="mdi-content-send" style="font-size: 35px;padding-top: 20px"></i></a>
                         </li>
                     </ul>';
             })->make(true);
+    }
+
+    public function buscarProjeto(Request $request) {
+        return $request->get('search');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addtaskimage(Request $request, $id)
+    {
+        try{
+            $projeto = Project::find($id);
+            $imagem = null;
+            $path = 'images/projects/project_'.$projeto->id.'/';
+
+            if(!is_dir($path)){
+                mkdir($path);
+            }
+
+            /** Verifica se há imagem para salvar no banco de dados */
+            if($request->get('group') != null && $request->get('group') == 'groupImage'){
+                //Move a imagem e salva no banco de dados o caminho
+                if ($request->file('imagetask') != null && $request->hasFile('imagetask') && $request->file('imagetask')->isValid()){
+                    $taskimage = new ProjecTaskImage();
+                    $ext = $request->file('imagetask')->guessExtension();
+                    if($ext == ''){
+                        $ext = pathinfo($request->file('imagetask')->getClientOriginalName(), PATHINFO_EXTENSION);
+                    }
+                    $imagem = md5(uniqid(time())) . "." . $ext;
+                    //move photo
+                    $request->file('imagetask')->move($path, $imagem);
+
+                    //Adiciona no modal para salvar no banco
+                    $taskimage->image= $path.$imagem;
+                    $taskimage->project_id = $projeto->id;
+                    $taskimage->type_task = 'image';
+
+                    /** Salva no banco de dados */
+                    $taskimage->save();
+                }
+            }
+
+
+            /** Verifica se tem imagens no array para a galeria */
+            if($request->get('group') != null && $request->get('group') == 'groupGalery'){
+                $arrayImages = [];
+                $taskimage = new ProjecTaskImage();
+
+                if($request->file('galeryArray') != null && $request->hasFile('galeryArray')){
+
+                    //Move a imagem e salva no banco de dados o caminho
+                    foreach ($request->file('galeryArray') as $image){
+                        if($image != null){
+
+                            if ($image->isValid()){
+                                $ext = $image->guessExtension();
+                                if($ext == ''){
+                                    $ext = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
+                                }
+                                $imagem = md5(uniqid(time())) . "." . $ext;
+                                //move photo
+                                $image->move($path, $imagem);
+
+                                //Adiciona no modal para salvar no banco
+                                $arrayImages[] = $path.$imagem;
+                            }
+                        }
+                    }
+
+                    //Adiciona no modal para salvar no banco
+                    $taskimage->galery = implode(',', $arrayImages);
+                    $taskimage->project_id = $projeto->id;
+                    $taskimage->type_task = 'galery';
+
+                    /** Salva no banco de dados */
+                    $taskimage->save();
+                }
+            }
+
+            /** Verifica se há imagem para salvar no banco de dados */
+            if($request->get('group') != null && $request->get('group') == 'groupText'){
+                //Move a imagem e salva no banco de dados o caminho
+                if ($request->get('text') != null ){
+
+                    $taskimage = new ProjecTaskImage();
+
+                    //Adiciona no modal para salvar no banco
+                    $taskimage->text= $request->get('text');
+                    $taskimage->project_id = $projeto->id;
+                    $taskimage->type_task = 'text';
+
+                    /** Salva no banco de dados */
+                    $taskimage->save();
+                }
+            }
+
+            return redirect('project')->with('success', 'Imagens adicionadas com sucesso!');
+
+        }catch (\Exception $e){
+            return redirect("/project/{$id}/edit")
+                        ->with('errors', 'Falha ao salvar tarefa!');
+        }
     }
 }
