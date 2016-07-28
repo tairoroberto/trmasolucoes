@@ -213,12 +213,12 @@
                     <article id="post-34" class="post-34 post type-post status-publish format-quote hentry category-category-trio tag-post-format tag-quotes tag-wordpress-2 post_format-post-format-quote clearfix">
                         <span class="entry-date">
                             <span class="entry-meta-date">
-                                {{$project->created_at}}
+                                <time datetime="{{$project->created_at->format('d-m-Y h:i:s')}}">{{$project->created_at->format('d-m-Y h:i:s')}}</time>
                             </span>
                         </span>
                         <div class="hentry-box">
                             <blockquote class="entry-quote">
-                                <p>Criação do projeto
+                                <p>Criação do projeto -
                                     <strong>{{$project->name}}</strong>
                                 </p>
                                 <cite>TRMA Soluções Web e Mobile</cite>
@@ -229,152 +229,98 @@
 
                 @foreach($taskimages as $taskimage)
 
-                    {{-- Mostra como galeria  --}}
-                    @if($taskimage->type_task == 'galery')
+                    {{-- Mostra como imagem unica --}}
+                    @if($taskimage->type_task == 'image')
+                        @if(file_exists($taskimage->image))
+                            <li class="animated fadeInUp">
+                                <article id="post-78" class="post-78 post type-post status-publish format-quote has-post-thumbnail hentry category-category-trio tag-post-format tag-quotes post_format-post-format-quote has_thumb clearfix">
+                                    <span class="entry-date">
+                                        <span class="entry-meta-date">
+                                            <time datetime="{{$taskimage->created_at->format('d-m-Y h:i:s')}}">{{$taskimage->created_at->format('d-m-Y h:i:s')}}</time>
+                                        </span>
+                                    </span>
+                                    <div class="hentry-box">
+                                        <div class="entry-gallery">
+                                            <ul class="clearfix">
+                                                <li>
+                                                    <figure class="entry-thumb">
+                                                        <img src="{{asset($taskimage->image)}}" width="800" height="532" alt=""/>
+                                                        <figcaption class="entry-thumb-caption">
+                                                            <div class="caption-content">
+                                                                <a class="caption-link" href="{{asset($taskimage->image)}}" rel="nofollow" title="{{$project->name}}">
+                                                                    {{$project->name}}
+                                                                </a>
+                                                            </div>
+                                                        </figcaption>
+                                                    </figure>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                        @endif
+
+                        {{-- Mostra como galeria  --}}
+                    @elseif($taskimage->type_task == 'galery')
+                        <?php $images = explode(',', $taskimage->galery); ?>
 
                         <li class="animated fadeInUp">
                             <article id="post-51"
                                      class="post-51 post type-post status-publish format-gallery hentry category-category-uno category-uncategorized tag-gallery tag-image tag-photo post_format-post-format-gallery clearfix">
-                        <span class="entry-date">
-                            <span class="entry-meta-date">
-                                <time datetime="2013-07-12T19:58:03+00:00">3 years ago</time>
-                            </span>
-                        </span>
+                                <span class="entry-date">
+                                    <span class="entry-meta-date">
+                                        <time datetime="{{$taskimage->created_at->format('d-m-Y h:i:s')}}">{{$taskimage->created_at->format('d-m-Y h:i:s')}}</time>
+                                    </span>
+                                </span>
                                 <div class="hentry-box">
                                     <div class="entry-gallery">
                                         <ul class="clearfix">
-                                            <li>
-                                                <figure class="entry-thumb">
-                                                    <img src="{{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}}" width="800" height="532" alt=""/>
-                                                    <figcaption class="entry-thumb-caption">
-                                                        <div class="caption-content">
-                                                            <a class="caption-link" href="{{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}}" rel="nofollow" title="Gallery Photo Caption.">
-                                                                <i class="fa fa-search" style="color: white;"></i>
-                                                            </a>
-                                                            <h3 class="caption-title">Gallery Photo Caption.</h3>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                            <li>
-                                                <figure class="entry-thumb">
-                                                    <img src="{{asset('timeline/image/Flight-91025_3645022109_l-800x532.jpg')}}" width="800" height="532" alt=""/>
-                                                    <figcaption class="entry-thumb-caption">
-                                                        <div class="caption-content">
-                                                            <a class="caption-link" href="{{asset('timeline/image/Flight-91025_3645022109_l.jpg')}}" rel="nofollow" title="Fluttered.">
-                                                                <i class="fa fa-search" style="color: white;"></i>
-                                                            </a>
-                                                            <h3 class="caption-title">Fluttered.</h3>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                            <li>
-                                                <figure class="entry-thumb">
-                                                    <img src="{{asset('timeline/image/IMG_19241_426386997_l.jpg')}}" width="800" height="532" alt=""/>
-                                                    <figcaption class="entry-thumb-caption">
-                                                        <div class="caption-content">
-                                                            <a class="caption-link" href="{{asset('timeline/image/IMG_19241_426386997_l.jpg')}}" rel="nofollow" title="Room with a view.">
-                                                                <i class="fa fa-search" style="color: white;"></i>
-                                                            </a>
-                                                            <h3 class="caption-title">Room with a view.</h3>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                            <li>
-                                                <figure class="entry-thumb">
-                                                    <img src="{{asset('timeline/image/Silent-Night-71772_3137728868_l.jpg')}}" width="800" height="532" alt=""/>
-                                                    <figcaption class="entry-thumb-caption">
-                                                        <div class="caption-content">
-                                                            <a class="caption-link" href="{{asset('timeline/image/Silent-Night-71772_3137728868_l.jpg')}}" rel="nofollow" title="">
-                                                                <i class="fa fa-search" style="color: white;"></i>
-                                                            </a>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                            <li>
-                                                <figure class="entry-thumb">
-                                                    <img src="{{asset('timeline/image/Silent-Night-71772_3137728868_l.jpg')}}" width="800" height="533" alt=""/>
-                                                    <figcaption class="entry-thumb-caption">
-                                                        <div class="caption-content">
-                                                            <a class="caption-link" href="{{asset('timeline/image/Silent-Night-71772_3137728868_l.jpg')}}" rel="nofollow" title="">
-                                                                <i class="fa fa-search" style="color: white;"></i>
-                                                            </a>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
+
+                                            @foreach($images as $image)
+                                                @if($image != null && file_exists($image))
+                                                    <li>
+                                                        <figure class="entry-thumb">
+                                                            <img src="{{asset($image)}}" width="800" height="532" alt=""/>
+                                                            <figcaption class="entry-thumb-caption">
+                                                                <div class="caption-content">
+                                                                    <a class="caption-link" href="{{asset($image)}}" rel="nofollow" title="{{$project->name}}">
+                                                                        <i class="fa fa-search" style="color: white;"></i>
+                                                                    </a>
+                                                                    <h3 class="caption-title">{{$project->name}}</h3>
+                                                                </div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
                             </article>
                         </li>
 
-                        {{-- Mostra como imagem unica --}}
-                        @elseif($taskimage->type_task == 'only_image')
-                            <li class="animated fadeInUp">
-                                <article id="post-34" class="post-34 post type-post status-publish format-quote hentry category-category-trio tag-post-format tag-quotes tag-wordpress-2 post_format-post-format-quote clearfix">
-                            <span class="entry-date">
-                                <span class="entry-meta-date">
-                                    <time datetime="2013-07-12T19:41:32+00:00">3 years ago</time>
-                                </span>
-                            </span>
-                                    <div class="hentry-box">
-                                        <blockquote class="entry-quote">
-                                            <p>A hero is an ordinary individual who finds the strength
-                                                to persevere and <strong>endure </strong>in spite of overwhelming obstacles.
-                                            </p>
-                                            <cite>Christopher Reeve</cite>
-                                        </blockquote>
-                                    </div>
-                                    <footer class="entry-footer">
-                                        <ul>
-                                            <li>
-                                                <i class="fa fa-comment"></i>
-                                                <a href="http://demo.herothemes.com/scopic/quote-post-format/#respond">
-                                                    Add Comment
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </footer>
-                                </article>
-                            </li>
-
                         {{-- Mostra como texto --}}
-                        @else
+                    @else
 
-                            <li class="animated fadeInUp">
-                                <article id="post-78" class="post-78 post type-post status-publish format-quote has-post-thumbnail hentry category-category-trio tag-post-format tag-quotes post_format-post-format-quote has_thumb clearfix">
-                            <span class="entry-date">
-                                <span class="entry-meta-date">
-                                    <time datetime="2013-07-13T11:20:34+00:00">3 years ago</time>
+                        <li class="animated fadeInUp">
+                            <article id="post-34" class="post-34 post type-post status-publish format-quote hentry category-category-trio tag-post-format tag-quotes tag-wordpress-2 post_format-post-format-quote clearfix">
+                                <span class="entry-date">
+                                    <span class="entry-meta-date">
+                                        <time datetime="{{$taskimage->created_at->format('d-m-Y h:i:s')}}">{{$taskimage->created_at->format('d-m-Y h:i:s')}}</time>
+                                    </span>
                                 </span>
-                            </span>
-                                    <div class="hentry-box">
-                                        <figure class="entry-quote-image">
-                                            <img width="800" height="533" src="{{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}}"
-                                                 class="attachment-post size-post wp-post-image"
-                                                 alt="Bay Bridge (#102224)_4350170444_l"
-                                                 srcset="{{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}} 800w, {{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}} 300w, {{asset('timeline/image/MG_40018_2125579117_l-800x532.jpg')}} 1024w"
-                                                 sizes="(max-width: 800px) 100vw, 800px"/>
-                                            <figcaption class="entry-quote-caption">
-                                                <div class="caption-content">
-                                                    <blockquote class="entry-quote">
-                                                        <p>Hard times don't create heroes. It is during
-                                                            the hard times when the 'hero' within us is revealed.
-                                                        </p>
-                                                        <cite>
-                                                            Bob Riley
-                                                        </cite>
-                                                    </blockquote>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                </article>
-                            </li>
+                                <div class="hentry-box">
+                                    <blockquote class="entry-quote">
+                                        <p>
+                                            {{$taskimage->text}}
+                                        </p>
+                                        <cite>TRMA Soluções Web e Mobile</cite>
+                                    </blockquote>
+                                </div>
+                            </article>
+                        </li>
                     @endif
                 @endforeach
 
